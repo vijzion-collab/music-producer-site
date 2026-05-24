@@ -7,10 +7,10 @@ import Lenis from "lenis";
 import Scene3D from "@/components/Scene3D";
 
 const tracks = [
-  { id: "1", title: "Cinematic Horizon", artist: "AVIDAN", duration: "3:45", genre: "Epic", url: "/audio/sample1.mp3" },
-  { id: "2", title: "Midnight Drive", artist: "AVIDAN", duration: "2:58", genre: "Atmospheric", url: "/audio/sample2.mp3" },
-  { id: "3", title: "Urban Pulse", artist: "AVIDAN", duration: "4:12", genre: "Urban", url: "/audio/sample3.mp3" },
-  { id: "4", title: "Ethereal Dreams", artist: "AVIDAN", duration: "3:22", genre: "Ambient", url: "/audio/sample4.mp3" },
+  { id: "1", title: "150 Whipp (feat. Tiwsted x Mal x Shade)", artist: "AVIDAN", duration: "3:45", genre: "Epic", url: "/audio/sample1.mp3" },
+  { id: "2", title: "100 Capers", artist: "AVIDAN", duration: "2:58", genre: "Atmospheric", url: "/audio/sample2.mp3" },
+  { id: "3", title: "100 Nights Wit U", artist: "AVIDAN", duration: "4:12", genre: "Urban", url: "/audio/sample3.mp3" },
+  { id: "4", title: "100 Way Kuntry", artist: "AVIDAN", duration: "3:22", genre: "Ambient", url: "/audio/sample4.mp3" },
 ];
 
 export default function Home() {
