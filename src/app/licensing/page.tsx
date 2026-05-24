@@ -31,8 +31,18 @@ const licenses = [
   },
 ];
 
+const stems = [
+  { track: "100 Capers", name: "Bass Guitar", file: "100 capers_ bass guitar.wav" },
+  { track: "100 Capers", name: "Main Guitar", file: "100 capers_GUAVA 105BPM C# MAIN GTR.wav" },
+  { track: "100 Capers", name: "Akai Kick", file: "100 capers_Akai Kick (@tntxd_ & @trillgotjuice).wav" },
+  { track: "100 Capers", name: "Diffy Snare", file: "100 capers_Diffy Snare (@tntxd_ & @trillgotjuice).wav" },
+  { track: "100 Capers", name: "Hi-Hat", file: "100 capers_Zay Hi-Hat 4.wav" },
+  { track: "100 Capers", name: "Hi-Hat (Materia)", file: "100 capers_[HH] MATERIA @ayo.desire.wav" },
+];
+
 export default function LicensingPage() {
   const [selected, setSelected] = useState("commercial");
+  const [selectedStems, setSelectedStems] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ success: boolean; message: string } | null>(null);
 
@@ -58,6 +68,19 @@ export default function LicensingPage() {
     setLoading(false);
   };
 
+  const toggleStem = (name: string) => {
+    setSelectedStems(prev =>
+      prev.includes(name) ? prev.filter(s => s !== name) : [...prev, name]
+    );
+  };
+
+  const handleStemPurchase = async () => {
+    if (selectedStems.length === 0) return;
+    setLoading(true);
+    setResult({ success: true, message: `Request sent for ${selectedStems.length} stems. We'll contact you with pricing.` });
+    setLoading(false);
+  };
+
   return (
     <div className="min-h-screen pt-32 pb-20 px-8">
       <div className="max-w-6xl mx-auto">
@@ -74,7 +97,9 @@ export default function LicensingPage() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        {/* Full Licenses */}
+        <h2 className="text-3xl font-bold mb-8 text-center">Full Track Licenses</h2>
+        <div className="grid md:grid-cols-3 gap-8 mb-20">
           {licenses.map((license, i) => (
             <motion.div
               key={license.id}
@@ -122,6 +147,71 @@ export default function LicensingPage() {
             </motion.div>
           ))}
         </div>
+
+        {/* Individual Stems */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-5xl font-black mb-4">
+              <span className="text-zinc-500">Individual</span> <span className="gold-gradient">Stems</span>
+            </h2>
+            <p className="text-zinc-400 text-lg max-w-xl mx-auto">
+              Purchase individual instrument stems for custom mixing. $29 per stem, instant download.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {stems.map((stem, i) => (
+              <motion.div
+                key={stem.name}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                onClick={() => toggleStem(stem.name)}
+                className={`cursor-pointer rounded-2xl p-6 border transition-all ${
+                  selectedStems.includes(stem.name)
+                    ? "border-amber-500/50 bg-amber-500/10"
+                    : "border-zinc-800 hover:border-zinc-700 bg-zinc-900/50"
+                }`}
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs text-amber-500/70 uppercase tracking-wider">{stem.track}</span>
+                  {selectedStems.includes(stem.name) && (
+                    <svg className="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  )}
+                </div>
+                <h3 className="text-lg font-bold mb-2">{stem.name}</h3>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-zinc-500">{stem.file}</span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {selectedStems.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="mt-8 p-6 glass rounded-2xl border border-amber-500/20 flex items-center justify-between"
+            >
+              <div>
+                <span className="text-lg font-bold">{selectedStems.length} stems selected</span>
+                <span className="ml-4 text-2xl font-black gold-gradient">Contact for pricing</span>
+              </div>
+              <button
+                onClick={handleStemPurchase}
+                className="px-8 py-4 bg-gradient-to-r from-amber-500 to-yellow-400 text-black font-bold rounded-xl hover:scale-105 transition"
+              >
+                Request Quote
+              </button>
+            </motion.div>
+          )}
+        </motion.div>
 
         {result && (
           <motion.div
